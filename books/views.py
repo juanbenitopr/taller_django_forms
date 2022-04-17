@@ -24,9 +24,8 @@ class CreateBookView(View):
 
         if formset.is_valid():
             for form in formset:
-                Book.objects.create(author_id=form.cleaned_data['author'],
-                                    title=form.cleaned_data['title'],
-                                    rating=form.cleaned_data['rating'])
+                if form.has_changed():
+                    form.save()
             return redirect(to='list-books')
 
         else:
